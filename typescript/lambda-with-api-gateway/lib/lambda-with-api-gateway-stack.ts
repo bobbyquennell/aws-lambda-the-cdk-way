@@ -2,6 +2,7 @@ import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import {Architecture} from '@aws-cdk/aws-lambda';
+import * as path from 'path';
 export class LambdaWithApiGatewayStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -12,7 +13,7 @@ export class LambdaWithApiGatewayStack extends cdk.Stack {
       description: 'Lambda with API Gateway',
       runtime: lambda.Runtime.NODEJS_14_X,
       architecture: Architecture.ARM_64,
-      entry: '../src/lambda/hello.ts',
+      entry: path.join(__dirname, '../src/lambda/hello.ts'),
       handler: 'handler'
     });
   }
