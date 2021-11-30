@@ -1,6 +1,8 @@
 import * as cdk from '@aws-cdk/core';
 import {NodejsFunction} from '@aws-cdk/aws-lambda-nodejs';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as dynamodb from '@aws-cdk/aws-dynamodb';
+import * as path from 'path';
 
 export interface HitCounterProps {
   // the function for which we want to count invocations
@@ -11,6 +13,23 @@ export class HitCounter extends cdk.Construct {
 
   constructor(scope: cdk.Construct, id: string, props: HitCounterProps) {
     super(scope, id);
-    // TODO: define the lambda and the dynamoDB table
+    
+    //define the lambda and the dynamoDB table
+    const table = new dynamodb.Table(this, 'Hits', {
+      partitionKey: { name: 'path', type: dynamodb.AttributeType.STRING }
+    });
+  
+    const handler = new NodejsFunction(this, 'HitCounterHandler', {
+      functionName: 'hitcounter-handler',
+      entry: path.join(__dirname, '../src/lambda/hitcounter.ts'),
+      handler: 'hitcounter.handler',
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_14_X,
+      environment: {
+        DOWNSTREAM_FUNCTION_NAME: props.downstream.functionName,
+        HITCOUNTER_TABLE: table.tableName
+      },
+    });
+
   }
 }
