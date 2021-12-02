@@ -10,7 +10,7 @@ export interface HitCounterProps {
 }
 
 export class HitCounter extends cdk.Construct {
-
+  public readonly handler: lambda.Function;
   constructor(scope: cdk.Construct, id: string, props: HitCounterProps) {
     super(scope, id);
     
@@ -19,10 +19,10 @@ export class HitCounter extends cdk.Construct {
       partitionKey: { name: 'path', type: dynamodb.AttributeType.STRING }
     });
   
-    const handler = new NodejsFunction(this, 'HitCounterHandler', {
+    this.handler = new NodejsFunction(this, 'HitCounterHandler', {
       functionName: 'hitcounter-handler',
       entry: path.join(__dirname, '../src/lambda/hitcounter.ts'),
-      handler: 'hitcounter.handler',
+      handler: 'handler',
       architecture: lambda.Architecture.ARM_64,
       runtime: lambda.Runtime.NODEJS_14_X,
       environment: {

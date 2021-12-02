@@ -31,4 +31,6 @@ const handler: APIGatewayProxyHandler = async (event) => {
 
 };
 
-export default handler;
+export { handler };
+// don't export default handler, otherwise you probably will get an error:
+// errorType":"Runtime.HandlerNotFound"
