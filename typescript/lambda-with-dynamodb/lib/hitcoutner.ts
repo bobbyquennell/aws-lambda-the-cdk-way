@@ -31,5 +31,6 @@ export class HitCounter extends cdk.Construct {
       },
     });
 
+    table.grantWriteData(this.handler);
   }
 }
