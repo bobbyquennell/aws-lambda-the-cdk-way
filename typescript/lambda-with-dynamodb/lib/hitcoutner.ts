@@ -1,17 +1,18 @@
-import * as cdk from '@aws-cdk/core';
-import {NodejsFunction} from '@aws-cdk/aws-lambda-nodejs';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
+import * as cdk from 'aws-cdk-lib';
+import {NodejsFunction} from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as path from 'path';
+import { Construct } from 'constructs';
 
 export interface HitCounterProps {
   // the function for which we want to count invocations
   downstream: lambda.IFunction;
 }
 
-export class HitCounter extends cdk.Construct {
+export class HitCounter extends Construct {
   public readonly handler: lambda.Function;
-  constructor(scope: cdk.Construct, id: string, props: HitCounterProps) {
+  constructor(scope: Construct, id: string, props: HitCounterProps) {
     super(scope, id);
     
     //define the lambda and the dynamoDB table
