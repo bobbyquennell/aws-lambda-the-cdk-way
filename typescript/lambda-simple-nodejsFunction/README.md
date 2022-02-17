@@ -5,7 +5,8 @@ This is a simple lambda project for TypeScript development with CDK.
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 the lambda function is `/services/simpleLambdaNodejs.ts`
-it does nothing but return "Hello world" when triggered
+when triggered, will publish the ingress event to the event bus: `test-event-bus`(can be across account or within same account, if across account, you need to set up the resource based policy for the event bus),
+and finally return a "Hello world" message
 
 ## project structure
 
@@ -31,17 +32,18 @@ Note:
 ## Before deploy to your environment first time
 
 ```script
-cdk bootstrap --profile <your-aws-profile> AWS_ACCOUNT_NUMBER/AWS_REGION
+export AWS_PROFILE=<your-aws-profile>
+cdk bootstrap aws://<AWS_ACCOUNT_NUMBER>/<AWS_REGION> --profile <your-aws-profile>
 ```
 
 ## Deploy
 
 ```script
-cdk deploy --profile <your-aws-profile>
+cdk deploy LambdaSimpleNodejsFunctionStack --profile <your-aws-profile>
 ```
 
 ## Destroy
 
 ```script
-cdk destroy --profile <your-aws-profile>
+cdk destroy LambdaSimpleNodejsFunctionStack --profile <your-aws-profile>
 ```
