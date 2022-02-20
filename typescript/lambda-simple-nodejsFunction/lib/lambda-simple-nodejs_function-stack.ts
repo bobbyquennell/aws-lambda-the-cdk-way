@@ -25,7 +25,6 @@ export class LambdaSimpleNodejsFunctionStack extends cdk.Stack {
         handler: 'main',
         environment: {
           EVENT_BUS_NAME: `arn:aws:events:${this.region}:${this.account}:event-bus/test-event-bus`,
-          AWS_REGION: this.region,
         }
       }
     );

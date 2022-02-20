@@ -4,8 +4,7 @@ This is a simple lambda project for TypeScript development with CDK.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-the lambda function is `/resources/simpleLambda.ts`
-it does nothing but return "Hello world" when triggered
+provision a `test-event-bus`(event publisher can be across account or within same account, if across account, when CDK deploy, you need to provide another aws account as the parameter `eventBusPublisherAccount`),
 
 Note:
 >When writing lambda with Typescript, you might consider a [lambda-nodejs.NodejsFunction](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda-nodejs.NodejsFunction.html), rather than [lambda.Function](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda.Function.html). 
@@ -25,13 +24,14 @@ Note:
 ## Before deploy to your environment first time
 
 ```script
-cdk bootstrap --profile <your-aws-profile> AWS_ACCOUNT_NUMBER/AWS_REGION
+export AWS_PROFILE=<your-aws-profile>
+cdk bootstrap aws://<AWS_ACCOUNT_NUMBER>/<AWS_REGION> --profile <your-aws-profile>
 ```
 
 ## Deploy
 
 ```script
-cdk deploy --profile <your-aws-profile>
+cdk deploy LambdaEventBridgeStack --profile <your-aws-profile> --parameters eventBusPublisherAccount=<another-aws-account>
 ```
 
 ## Destroy
